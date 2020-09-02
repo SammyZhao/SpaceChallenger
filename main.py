@@ -16,10 +16,11 @@ playerIcon = pygame.image.load('./src/spaceship2.png')
 # Where player appears
 playerX = 370
 playerY = 480
+playerX_move = 0
 
-def player():
+def player(x, y):
     # To draw player on the screen
-    screen.blit(playerIcon, (playerX, playerY))
+    screen.blit(playerIcon, (x, y))
 
 running = True
 while running:
@@ -30,5 +31,22 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    player()
+        # checking left or right key keystroke is pressed.
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                playerX_move = -0.3
+            if event.key == pygame.K_RIGHT:
+                playerX_move = 0.3
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                playerX_move = 0
+
+    playerX += playerX_move
+    if playerX <= 0:
+        playerX = 0
+    elif playerX >= 736:
+        playerX = 736
+
+    player(playerX, playerY)
+
     pygame.display.update()
